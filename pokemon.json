@@ -1,0 +1,64 @@
+{
+    "pokemon": [
+        {
+            "name": "Bulbasaur",
+            "number": 1,
+            "generation": 6,
+            "genderRatio": {
+                "male": 87.5,
+                "female": 12.5
+            },
+            "types": ["Grass", "Poison"],
+            "classification": "Seed Pokemon",
+            "height": "0.7m",
+            "weight": "6.9kg",
+            "captureRate": 45,
+            "baseEggSteps": 5120,
+            "abilities": ["Overgrow", "Chlorophyll"],
+            "experienceGrowth": {
+                "points": 1059860,
+                "rate": "medium slow"
+            },
+            "baseHappiness": 70,
+            "ev": {
+                "type": "Sp. Attack",
+                "value": 1
+            },
+            "skyBattleEligible": false,
+            "damage": null,
+            "wildHoldItem": null,
+            "eggGroups": ["Monster", "Grass"],
+            "evolution": {
+                "name": "Ivysaur",
+                "number": 2,
+                "level": 16
+            },
+            "locations": [
+                {
+                    "game": "X",
+                    "location": "Lumiose City - Professor Sycamore"
+                },
+                {
+                    "game": "Y",
+                    "location": "Lumiose City - Professor Sycamore"
+                },
+                {
+                    "game": "Alpha Sapphire",
+                    "location": "Trade from X&Y"
+                },
+                {
+                    "game": "Omega Ruby",
+                    "location": "Trade from X&Y"
+                }
+            ],
+            "baseStats": {
+                "hp": 45,
+                "attack": 49,
+                "defense": 49,
+                "spAttack": 65,
+                "spDefense": 65,
+                "speed": 45
+            }
+        }
+    ]
+}
