@@ -1,4 +1,4 @@
-# pokemon-db
+# pokedex-db
 Database Entries for Pokemon
 
 # Purpose
