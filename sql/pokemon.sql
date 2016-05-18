@@ -1,14 +1,15 @@
-SELECT poke.identifier           AS name
-     , poke.species_id           AS number
-     , gen_names.name            AS generation
-     , typ.types                 AS types
-     , spec_names.genus          AS genus
-     , poke.height               AS height
-     , poke.weight               AS weight
-     , species.capture_rate      AS capture_rate
-     , poke.base_experience      AS base_experience
-     , poke_abilities.identifier AS abilities
-     , ev.ev_data                AS effort_values
+SELECT poke.identifier            AS name
+     , poke.species_id            AS number
+     , gen_names.name             AS generation
+     , typ.types                  AS types
+     , spec_names.genus           AS genus
+     , poke.height                AS height
+     , poke.weight                AS weight
+     , species.capture_rate       AS capture_rate
+     , poke.base_experience       AS base_experience
+     , poke_abilities.identifier  AS abilities
+     , ev.ev_data                 AS effort_values
+     , poke_egg_groups.identifier AS egg_groups
   FROM pokemon AS poke
   JOIN pokemon_species AS species
     ON poke.identifier = species.identifier
@@ -44,13 +45,27 @@ SELECT poke.identifier           AS name
     ON poke_abilities.pokemon_id = poke.species_id
   JOIN (
         SELECT poke_stats.pokemon_id
-             , concat(stats.identifier, ', ', poke_stats.effort) AS ev_data
+             , string_agg(concat(stats.identifier, ', ', poke_stats.effort), ', ') AS ev_data
           FROM pokemon_stats AS poke_stats
           JOIN stats
             ON stats.id = poke_stats.stat_id
          WHERE poke_stats.effort > 0
+         GROUP BY poke_stats.pokemon_id
        ) AS ev
     ON ev.pokemon_id = poke.species_id
+  JOIN (
+        SELECT pokemon.identifier AS poke_identifier
+             , pokemon.species_id AS species_id
+             , string_agg(egg_groups.identifier, ', ') AS identifier
+          FROM pokemon_egg_groups AS poke_egg
+          JOIN egg_groups
+            ON poke_egg.egg_group_id = egg_groups.id
+          JOIN pokemon
+            ON pokemon.species_id = poke_egg.species_id
+         WHERE pokemon.is_default = 't'
+         GROUP BY pokemon.identifier, pokemon.species_id
+       ) AS poke_egg_groups
+    ON poke_egg_groups.species_id = poke.species_id
  WHERE poke.is_default = 't'
    AND gen_names.local_language_id = 9
  ORDER BY poke.species_id;
