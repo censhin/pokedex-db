@@ -2,6 +2,7 @@ SELECT poke.identifier            AS name
      , poke.species_id            AS number
      , gen_names.name             AS generation
      , typ.types                  AS types
+     , base_stats.stats           AS base_stats
      , spec_names.genus           AS genus
      , poke.height                AS height
      , poke.weight                AS weight
@@ -10,6 +11,7 @@ SELECT poke.identifier            AS name
      , poke_abilities.identifier  AS abilities
      , ev.ev_data                 AS effort_values
      , poke_egg_groups.identifier AS egg_groups
+     , evolution.evol_data        AS evolution
   FROM pokemon AS poke
   JOIN pokemon_species AS species
     ON poke.identifier = species.identifier
@@ -26,6 +28,14 @@ SELECT poke.identifier            AS name
          GROUP BY poke.identifier
        ) AS typ
     ON typ.name = poke.identifier
+  JOIN (
+        SELECT poke_stats.pokemon_id
+             , string_agg(concat(stats.identifier, ': ', poke_stats.base_stat), ', ') AS stats
+          FROM pokemon_stats AS poke_stats
+          JOIN stats
+            ON stats.id = poke_stats.stat_id GROUP BY poke_stats.pokemon_id
+       ) AS base_stats
+    ON poke.species_id = base_stats.pokemon_id
   JOIN (
         SELECT genus
              , pokemon_species_id
@@ -66,6 +76,16 @@ SELECT poke.identifier            AS name
          GROUP BY pokemon.identifier, pokemon.species_id
        ) AS poke_egg_groups
     ON poke_egg_groups.species_id = poke.species_id
+  LEFT JOIN (
+        SELECT poke_evol.id
+             , poke_evol.evolved_species_id
+             , concat(poke.identifier, ', ', poke_evol.evolved_species_id, ', ', poke_evol.minimum_level) AS evol_data
+          FROM pokemon_evolution AS poke_evol
+          JOIN pokemon AS poke
+            ON poke.species_id = poke_evol.evolved_species_id
+         WHERE poke.is_default = 't'
+       ) AS evolution
+    ON poke.species_id = evolution.id
  WHERE poke.is_default = 't'
    AND gen_names.local_language_id = 9
  ORDER BY poke.species_id;
