@@ -33,7 +33,8 @@ SELECT poke.identifier            AS name
              , string_agg(concat(stats.identifier, ': ', poke_stats.base_stat), ', ') AS stats
           FROM pokemon_stats AS poke_stats
           JOIN stats
-            ON stats.id = poke_stats.stat_id GROUP BY poke_stats.pokemon_id
+            ON stats.id = poke_stats.stat_id
+         GROUP BY poke_stats.pokemon_id
        ) AS base_stats
     ON poke.species_id = base_stats.pokemon_id
   JOIN (
@@ -55,7 +56,7 @@ SELECT poke.identifier            AS name
     ON poke_abilities.pokemon_id = poke.species_id
   JOIN (
         SELECT poke_stats.pokemon_id
-             , string_agg(concat(stats.identifier, ', ', poke_stats.effort), ', ') AS ev_data
+             , string_agg(concat(stats.identifier, ': ', poke_stats.effort), ', ') AS ev_data
           FROM pokemon_stats AS poke_stats
           JOIN stats
             ON stats.id = poke_stats.stat_id
