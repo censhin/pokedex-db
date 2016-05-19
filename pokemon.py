@@ -103,6 +103,9 @@ def get_pokemon(engine):
     result = engine.execute(SQL)
     return [poke for poke in result]
 
+def value_to_list(value):
+    return [str(e).strip() for e in value.split(',')]
+
 def stats_to_dict(stats):
     d = {}
     stats_list = [stat.split(':') for stat in stats.split(',')]
@@ -125,16 +128,16 @@ def pokemon_to_dict(pokemon):
     return [{"name": str(poke[0]),
              "number": int(poke[1]),
              "generation": str(poke[2]),
-             "types": [str(poke_type) for poke_type in poke[3].split(',')],
+             "types": value_to_list(poke[3]),
              "baseStats": stats_to_dict(poke[4]),
              "genus": str(poke[5]),
              "height": int(poke[6]),
              "weight": int(poke[7]),
              "captureRate": int(poke[8]),
              "baseExperience": int(poke[9]),
-             "abilities": [str(ability) for ability in poke[10].split(',')],
+             "abilities": value_to_list(poke[10]),
              "effortValues": stats_to_dict(poke[11]),
-             "eggGroups": [str(group) for group in poke[12].split(',')],
+             "eggGroups": value_to_list(poke[12]),
              "evolution": evolution_to_dict(poke[13])} for poke in pokemon]
 
 def pokemon_to_json(pokemon):
