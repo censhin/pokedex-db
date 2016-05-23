@@ -1,0 +1,14 @@
+{
+    "name": "pound",
+    "number": 1,
+    "type": "normal",
+    "category": "physical",
+    "contest": "tough",
+    "pp": 35,
+    "power": 40,
+    "accuracy": 100,
+    "generation": "Generation I",
+    "tm": null,
+    "hm": null,
+    "tutor": false
+}
