@@ -9,6 +9,7 @@ SELECT moves.identifier         AS name
      , gen_names.name           AS generation
      , tm.item                  AS tm
      , hm.item                  AS hm
+     , move_tutor.value         AS tutor
   FROM moves
   JOIN types
     ON types.id = moves.type_id
@@ -44,5 +45,14 @@ SELECT moves.identifier         AS name
          GROUP BY moves.identifier
        ) AS hm
     ON moves.identifier = hm.move
+  LEFT JOIN (
+        SELECT DISTINCT ON (move_id)
+               move_id
+             , true AS value
+          FROM pokemon_moves
+         WHERE pokemon_move_method_id = 3
+         ORDER BY move_id
+       ) AS move_tutor
+    ON moves.id = move_tutor.move_id
  WHERE gen_names.local_language_id = 9
  ORDER BY number;
