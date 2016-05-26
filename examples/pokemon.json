@@ -1,0 +1,29 @@
+{
+    "abilities": ["overgrow", "chlorophyll"],
+    "weight": 69,
+    "generation": "Generation I",
+    "baseStats": {
+        "special-attack": 65,
+        "hp": 45,
+        "attack": 49,
+        "defense": 49,
+        "speed": 45,
+        "special-defense": 65
+    },
+    "captureRate": 45,
+    "number": 1,
+    "eggGroups": ["monster", "plant"],
+    "height": 7,
+    "baseExperience": 64,
+    "types": ["poison", "grass"],
+    "effortValues": {
+        "special-attack": 1
+    },
+    "evolution": {
+        "level": "16",
+        "name": "ivysaur",
+        "number": "2"
+    },
+    "name": "bulbasaur",
+    "genus": "Seed"
+}
