@@ -106,20 +106,28 @@ def get_pokemon(engine):
 def value_to_list(value):
     return [str(e).strip() for e in value.split(',')]
 
+def kebab_to_camel(s):
+    if '-' in s:
+        s_list = s.split('-')
+        s_list[1] = s_list[1][:1].capitalize() + s_list[1][1:]
+        return s_list[0] + s_list[1]
+    else:
+        return s
+
 def stats_to_dict(stats):
     d = {}
     stats_list = [stat.split(':') for stat in stats.split(',')]
     for s in stats_list:
-        d[str(s[0]).strip()] = int(s[1])
+        d[kebab_to_camel(str(s[0]).strip())] = int(s[1])
     return d
 
 def evolution_to_dict(evolution):
     if evolution:
         evo = [e.strip() for e in str(evolution).split(',')]
         return {
-            "name": evo[0],
-            "number": evo[1],
-            "level": evo[2]
+            "name": str(evo[0]),
+            "number": int(evo[1]) if evo[1] else '',
+            "level": int(evo[2]) if evo[2] else ''
         }
     else:
         return None
